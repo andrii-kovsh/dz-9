@@ -2,10 +2,10 @@ package cc.robotdreams;
 
 public abstract class Person {
     private String firstName;
-    private String lastName;
+    protected String lastName;
     private String previousLastName;
     private int age;
-    private Person partner;
+    protected Person partner;
 
     public Person(String firstName, String lastName, int age) {
         this.firstName = firstName;
@@ -30,6 +30,7 @@ public abstract class Person {
     }
 
     public int getAge() {
+
         return age;
     }
 
@@ -42,16 +43,19 @@ public abstract class Person {
     }
 
     public void setPartner(Person partner) {
-        if (partner instanceof Man) {
-            this.partner = (Man) partner;
-        } else if (partner instanceof Woman) {
-            this.partner = (Woman) partner;
-        }
+        this.partner = partner;
     }
-    public void registerPartnership(Person partner) {
-        if (this.partner == null && partner != null && partner.getPartner() == null) {
-            this.partner = partner;
-            partner.setPartner(this);
+
+    public abstract void registerPartnership(Person partner);
+
+    public void deregisterPartnership(boolean returnToPreviousLastName) {
+        if (this.partner != null) {
+            this.partner.setPartner(null); // Зняти партнерство у партнера
+            this.partner = null; // Зняти партнерство у поточного об'єкта
+
+            if (returnToPreviousLastName && previousLastName != null) {
+                this.setLastName(previousLastName);
+            }
         }
     }
 
@@ -62,14 +66,5 @@ public abstract class Person {
     public void setPreviousLastName(String previousLastName) {
         this.previousLastName = previousLastName;
     }
-    public void deregisterPartnership(boolean returnToPreviousLastName) {
-        if (this.partner != null) {
-            this.partner = null;
-            if (returnToPreviousLastName && this instanceof Woman) {
-                this.setLastName(((Woman) this).getPreviousLastName());
-            }
-        }
-    }
-        public abstract boolean isRetired();{
-    }
+        public abstract boolean isRetired();
 }

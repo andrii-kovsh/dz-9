@@ -1,35 +1,55 @@
 package cc.robotdreams;
 
 public class Main {
-    public static void main(String[] args) {
+
+public static void main(String[] args) {
         Person man1 = new Man("Василь", "Чірт", 30);
         Person woman1 = new Woman("Іра", "Дика", 25);
+        Person man2 = new Man("Петро", "Попадайло", 40);
+        Person woman2 = new Woman("Алла", "Бараболя", 35);
+        Person man3 = new Man("Макс", "Сила", 68);
 
         // Register partnership
         woman1.registerPartnership(man1);
+        man1.registerPartnership(woman1);
+        woman2.registerPartnership(man2);
+        man2.registerPartnership(man1);
 
-        // Output details for Man
-        System.out.println("Man Details:");
-        System.out.println("First Name: " + man1.getFirstName());
-        System.out.println("Last Name: " + man1.getLastName());
-        System.out.println("Age: " + man1.getAge());
-        if (man1 instanceof Man) {
-            Man man1AsMan = (Man) man1;
-            System.out.println("Партнер чоловіка: " + man1AsMan.getPartner());
+        // Output details grouped by partnerships
+        System.out.println("Особи зареєстровані у шлюбах:");
+        printPersonDetails(man1);
+        printPersonDetails(woman1);
+        printPersonDetails(man2);
+        printPersonDetails(woman2);
+
+        System.out.println("Особи без шлюбу:");
+        printPersonDetails(man3);
+
+        // Divorce one couple
+        woman1.deregisterPartnership(true);
+        man1.deregisterPartnership(true);
+
+        System.out.println("Особи після розриву шлюбу:");
+        printPersonDetails(woman1);
+        printPersonDetails(man1);
         }
-        System.out.println("Чи на пенсії: " + man1.isRetired());
 
+    public static void printPersonDetails(Person person) {
+        String gender = (person instanceof Man) ? "Чоловік" : "Жінка";
+        System.out.println(gender + ":");
+        System.out.println("Ім'я: " + person.getFirstName());
+        System.out.println("Прізвище: " + person.getLastName());
+        System.out.println("Вік: " + person.getAge());
+        System.out.println("Партнер: " + getPartnerName(person));
+        System.out.println("Чи на пенсії: " + (person.isRetired() ? "так" : "ні"));
+        System.out.println();
+    }
 
-        // Output details for Woman
-        System.out.println("\nWoman Details:");
-        System.out.println("First Name: " + woman1.getFirstName());
-        System.out.println("Last Name: " + woman1.getLastName());
-        System.out.println("Age: " + woman1.getAge());
-        if (woman1 instanceof Woman) {
-            Woman woman1AsWoman = (Woman) woman1;
-            System.out.println("Партнер жінки: " + woman1AsWoman.getPartner());
+    public static String getPartnerName(Person person) {
+        if (person.getPartner() != null) {
+            return person.getPartner().getFirstName() + " " + person.getPartner().getLastName();
+        } else {
+            return "немає партнера";
         }
-
-        System.out.println("Чи на пенсії: " + woman1.isRetired());
     }
 }

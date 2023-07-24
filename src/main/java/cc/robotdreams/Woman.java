@@ -1,31 +1,36 @@
 package cc.robotdreams;
 
 public class Woman extends Person {
-    private Man partner;
 
     public Woman(String firstName, String lastName, int age) {
         super(firstName, lastName, age);
-        this.partner = null;
     }
 
-    public Man getPartner() {
-        return partner;
+    @Override
+    public void registerPartnership(Person partner) {
+        if (partner instanceof Man) {
+            setPreviousLastName(getLastName()); // Зберегти попереднє прізвище
+            setPartner(partner);
+            setLastName(partner.getLastName());
+        }
     }
 
-    public void registerPartnership(Man partner) {
-        this.partner = partner;
-        partner.setPartner(this);
-    }
-
-    public void deregisterPartnership() {
-        if (partner != null) {
-            setLastName(getLastName());
-            this.partner = null;
+    @Override
+    public void deregisterPartnership(boolean returnToPreviousLastName) {
+        super.deregisterPartnership(returnToPreviousLastName);
+        if (returnToPreviousLastName) {
+            setLastName(getPreviousLastName());
         }
     }
 
     @Override
     public boolean isRetired() {
         return getAge() >= 60;
+    }
+
+    @Override
+    public String toString() {
+        String partnerName = (getPartner() != null) ? getPartner().getFirstName() + " " + getPartner().getLastName() : "немає партнера";
+        return "Жінка: " + getFirstName() + " " + getLastName() + ", вік: " + getAge() + ", партнер: " + partnerName;
     }
 }
