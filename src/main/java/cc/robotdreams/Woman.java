@@ -6,14 +6,6 @@ public class Woman extends Person {
         super(firstName, lastName, age);
     }
 
-    @Override
-    public void registerPartnership(Person partner) {
-        if (partner instanceof Man) {
-            setPreviousLastName(getLastName()); // Зберегти попереднє прізвище
-            setPartner(partner);
-            setLastName(partner.getLastName());
-        }
-    }
 
     @Override
     public void deregisterPartnership(boolean returnToPreviousLastName) {

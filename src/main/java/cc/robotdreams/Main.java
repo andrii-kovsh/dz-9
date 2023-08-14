@@ -9,13 +9,11 @@ public static void main(String[] args) {
         Person woman2 = new Woman("Алла", "Бараболя", 35);
         Person man3 = new Man("Макс", "Сила", 68);
 
-        // Register partnership
+        // Реєстрація шлюбу
         woman1.registerPartnership(man1);
-        man1.registerPartnership(woman1);
         woman2.registerPartnership(man2);
-        man2.registerPartnership(man1);
 
-        // Output details grouped by partnerships
+        // Вивід деталей про осіб: у шлюбі, без шлюбу, після розриву
         System.out.println("Особи зареєстровані у шлюбах:");
         printPersonDetails(man1);
         printPersonDetails(woman1);
@@ -25,14 +23,13 @@ public static void main(String[] args) {
         System.out.println("Особи без шлюбу:");
         printPersonDetails(man3);
 
-        // Divorce one couple
+        // Розірвати попередньо зареєстрований шлюб
         woman1.deregisterPartnership(true);
-        man1.deregisterPartnership(true);
 
         System.out.println("Особи після розриву шлюбу:");
         printPersonDetails(woman1);
         printPersonDetails(man1);
-        }
+    }
 
     public static void printPersonDetails(Person person) {
         String gender = (person instanceof Man) ? "Чоловік" : "Жінка";

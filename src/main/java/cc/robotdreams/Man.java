@@ -6,13 +6,6 @@ public class Man extends Person {
         super(firstName, lastName, age);
     }
 
-    public void registerPartnership(Person partner) {
-        if (partner instanceof Woman) {
-            setPartner(partner);
-            setLastName((partner).getLastName());
-        }
-    }
-
     @Override
     public boolean isRetired() {
         return getAge() >= 65;

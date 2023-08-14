@@ -1,6 +1,6 @@
 package cc.robotdreams;
 
-public abstract class Person {
+public abstract class Person implements Partnerable {
     private String firstName;
     protected String lastName;
     private String previousLastName;
@@ -46,13 +46,24 @@ public abstract class Person {
         this.partner = partner;
     }
 
-    public abstract void registerPartnership(Person partner);
+    @Override
+    public void registerPartnership(Person partner) {
+        if (this instanceof Man && partner instanceof Woman) {
+            setPartner(partner);
+            setLastName(partner.getLastName());
+            partner.setPartner(this);
+        } else if (this instanceof Woman && partner instanceof Man) {
+            setPreviousLastName(getLastName()); // Зберегти попереднє прізвище
+            setPartner(partner);
+            setLastName(partner.getLastName()); // Записати нове прізвище
+            partner.setPartner(this);
+        }
+    }
 
     public void deregisterPartnership(boolean returnToPreviousLastName) {
         if (this.partner != null) {
             this.partner.setPartner(null); // Зняти партнерство у партнера
             this.partner = null; // Зняти партнерство у поточного об'єкта
-
             if (returnToPreviousLastName && previousLastName != null) {
                 this.setLastName(previousLastName);
             }
