@@ -50,7 +50,6 @@ public abstract class Person implements Partnerable {
     public void registerPartnership(Person partner) {
         if (this instanceof Man && partner instanceof Woman) {
             setPartner(partner);
-            setLastName(partner.getLastName());
             partner.setPartner(this);
         } else if (this instanceof Woman && partner instanceof Man) {
             setPreviousLastName(getLastName()); // Зберегти попереднє прізвище
